@@ -1,5 +1,6 @@
 package le.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -105,6 +106,14 @@ public class LMenu extends JMenuBar {
 				}
 			}
 		}
-
+	}
+	public void setColor(Color bg, Color text) {
+		super.setBackground(bg);
+		for (JMenuItem[] jMenuItems : menuArr) {
+			for (JMenuItem jMenuItem : jMenuItems) {
+				jMenuItem.setBackground(bg);
+				jMenuItem.setForeground(text);
+			}
+		}
 	}
 }

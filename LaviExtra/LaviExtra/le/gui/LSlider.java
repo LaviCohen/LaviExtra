@@ -1,6 +1,7 @@
 package le.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,5 +51,12 @@ public class LSlider extends JPanel{
 	}
 	public int getValue() {
 		return slider.getValue();
+	}
+	@Override
+	public void setBackground(Color bg) {
+		super.setBackground(bg);
+		if (this.slider != null) {
+			this.slider.setBackground(bg);
+		}
 	}
 }

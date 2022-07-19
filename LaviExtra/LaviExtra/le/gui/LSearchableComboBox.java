@@ -53,8 +53,7 @@ public class LSearchableComboBox<T> extends JPanel {
 	private boolean returnToLastIfUndefind = true;
 	private int downs = 0;
 	private boolean isAutoCompleteNow = false;
-	private Color buttonBackgroundColor = Color.LIGHT_GRAY;
-
+	private ColorTheme theme;
 	private JDialog popupWindow;
 
 	private JScrollPane popupWindowScrollPane;
@@ -252,18 +251,22 @@ public class LSearchableComboBox<T> extends JPanel {
 	public static interface StylingManager{
 		public Styler getStylerFor(Object source);
 	}
-	public LSearchableComboBox(T[] list, int index) {
-		this(list, index, DEFAULT_STYLIN_MANAGER);
+	public LSearchableComboBox(T[] list) {
+		this(list, 0);
 	}
-	public LSearchableComboBox(T[] list, int index, StylingManager manager) {
-		final LSearchableComboBox<T> current = this;
-		openMenu.setBackground(buttonBackgroundColor);
+	public LSearchableComboBox(T[] list, int index) {
+		this(list, index, DEFAULT_STYLIN_MANAGER, ColorTheme.DEFAULT_COLOR_THEME);
+	}
+	public LSearchableComboBox(T[] list, int index, StylingManager manager, ColorTheme theme) {
+		this.theme = theme;
+		this.theme.affect(this.openMenu);
 		this.list = (Styler[]) Array.newInstance(Styler.class, list.length);
 		for (int i = 0; i < list.length; i++) {
 			this.list[i] = manager.getStylerFor(list[i]);
 		}
 		this.index = index;
 		this.field.setText(this.list[index].display);
+		this.theme.affect(this.field);
 		this.setLayout(new BorderLayout());
 		this.add(field, BorderLayout.CENTER);
 		this.add(openMenu, AbstractTranslator.getTranslator().getAfterTextBorder());
@@ -272,11 +275,11 @@ public class LSearchableComboBox<T> extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (popupWindow != null) {
-					popupWindow.dispose();
 					openMenu.setText("\\/");
+					popupWindow.dispose();
 				}else {
-					openSelect();
 					openMenu.setText("/\\");
+					openSelect();
 				}
 			}
 		});
@@ -300,12 +303,13 @@ public class LSearchableComboBox<T> extends JPanel {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				current.field.setSelectionStart(0);
-				current.field.setSelectionEnd(0);
-				if (!isListItem(current.field.getText())) {
-					JOptionPane.showMessageDialog(current, itemUndefinedErrorText, "Error", JOptionPane.ERROR_MESSAGE);
+				LSearchableComboBox.this.field.setSelectionStart(0);
+				LSearchableComboBox.this.field.setSelectionEnd(0);
+				if (!isListItem(LSearchableComboBox.this.field.getText())) {
+					JOptionPane.showMessageDialog(LSearchableComboBox.this,
+							itemUndefinedErrorText, "Error", JOptionPane.ERROR_MESSAGE);
 					if (returnToLastIfUndefind) {
-						current.field.setText(list[index].toString());
+						LSearchableComboBox.this.field.setText(list[index].toString());
 					}
 				}else {
 					updateFieldFont();
@@ -332,18 +336,15 @@ public class LSearchableComboBox<T> extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					current.downs = 1;
-					autoComplete(current.field.getText());
+					LSearchableComboBox.this.downs = 1;
+					autoComplete(LSearchableComboBox.this.field.getText());
 				}else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					current.downs = -1;
-					autoComplete(current.field.getText());
+					LSearchableComboBox.this.downs = -1;
+					autoComplete(LSearchableComboBox.this.field.getText());
 				}
 			}
 		});
 		updateFieldFont();
-	}
-	public LSearchableComboBox(T[] list) {
-		this(list, 0);
 	}
 	public void autoComplete(String search) {
 		String found = null;
@@ -408,7 +409,6 @@ public class LSearchableComboBox<T> extends JPanel {
 		return getParentDialog(component.getParent());
 	}
 	private void createPopupWindow() {
-		final LSearchableComboBox<T> current = this;
 		popupWindow = new JDialog(getParentDialog(this), true);
 		popupWindow.setUndecorated(true);
 		popupWindow.setLayout(new BorderLayout());
@@ -418,8 +418,9 @@ public class LSearchableComboBox<T> extends JPanel {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				current.index = showList.getSelectedIndex();
-				current.field.setText(current.list[current.index].display);
+				LSearchableComboBox.this.index = showList.getSelectedIndex();
+				LSearchableComboBox.this.field.setText(
+						LSearchableComboBox.this.list[LSearchableComboBox.this.index].display);
 				updateFieldFont();
 				popupWindow.dispose();
 				popupWindow = null;
@@ -480,7 +481,7 @@ public class LSearchableComboBox<T> extends JPanel {
 		return index;
 	}
 	public void update() {
-		this.openMenu.setBackground(buttonBackgroundColor);
+		theme.affect(openMenu);
 		revalidate();
 		repaint();
 	}
@@ -495,12 +496,5 @@ public class LSearchableComboBox<T> extends JPanel {
 	}
 	public void setReturnToLastIfUndefind(boolean returnToLastIfUndefind) {
 		this.returnToLastIfUndefind = returnToLastIfUndefind;
-	}
-	public Color getButtonBackgroundColor() {
-		return buttonBackgroundColor;
-	}
-	public void setButtonBackgroundColor(Color buttonBackgroundColor) {
-		this.buttonBackgroundColor = buttonBackgroundColor;
-		update();
 	}
 }

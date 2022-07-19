@@ -40,23 +40,8 @@ public class LFontChooser {
 	}
 	private static final String DEFAULT_PREVIEW_TEXT = "<html>Your text will look like this:<br/>"
 			+ "abcdefghijklmnopqrstuvwxyz1234567890/*-+!@#$%^&*()_+?\\/\'\":`~;</html>";
-	private static final ColorTheme DEFAULT_COLOR_THEME = new ColorTheme() {
-		
-		Color backgroundColor = new Color(233, 233, 233);
-		Color textColor = Color.BLACK;
-		@Override
-		public Color getTextColor() {
-			return textColor;
-		}
-		
-		@Override
-		public Color getBackgroundColor() {
-			return backgroundColor;
-		}
-	};
-	
 	public static Font openChooseFontDialog(Window owner, String title, Font baseFont, String previewText) {
-		return openChooseFontDialog(owner, title, baseFont, previewText, DEFAULT_COLOR_THEME);
+		return openChooseFontDialog(owner, title, baseFont, previewText, ColorTheme.DEFAULT_COLOR_THEME);
 	}
 	public static Font openChooseFontDialog(Window owner, String title, Font baseFont, String previewText, ColorTheme theme) {
 		if (baseFont == null) {
@@ -78,7 +63,7 @@ public class LFontChooser {
 						return new Styler(source, source + "      abcdeABCDE", source.toString(), Color.BLACK);
 					}
 				}
-			);
+			, theme);
 		familyBox.setSelectedItem(baseFont.getFamily());
 		JPanel leftPanel = new JPanel(new GridLayout(4, 0));
 		JPanel familyPanel = new JPanel(new BorderLayout());

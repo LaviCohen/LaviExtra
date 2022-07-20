@@ -150,7 +150,7 @@ public class LDialogs {
 				d.add(button);
 				button.setBorder(BorderFactory.createLineBorder(null));
 				button.setBounds(60 + totalX, label.getPreferredSize().height,
-						button.getPreferredSize().width, 30);
+						button.getPreferredSize().width + 10, 30);
 				totalX += button.getPreferredSize().width + 30;
 			}
 		}

@@ -1,4 +1,4 @@
-package le.gui;
+package le.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

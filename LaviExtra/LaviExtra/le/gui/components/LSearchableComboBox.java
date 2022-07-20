@@ -1,4 +1,4 @@
-package le.gui;
+package le.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,6 +34,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import le.gui.ColorTheme;
 import le.languages.AbstractTranslator;
 
 /**

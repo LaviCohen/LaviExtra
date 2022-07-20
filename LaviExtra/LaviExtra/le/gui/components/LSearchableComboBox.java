@@ -24,7 +24,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -35,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import le.gui.ColorTheme;
+import le.gui.dialogs.LDialogs;
 import le.languages.AbstractTranslator;
 
 /**
@@ -307,8 +307,8 @@ public class LSearchableComboBox<T> extends JPanel {
 				LSearchableComboBox.this.field.setSelectionStart(0);
 				LSearchableComboBox.this.field.setSelectionEnd(0);
 				if (!isListItem(LSearchableComboBox.this.field.getText())) {
-					JOptionPane.showMessageDialog(LSearchableComboBox.this,
-							itemUndefinedErrorText, "Error", JOptionPane.ERROR_MESSAGE);
+					LDialogs.showMessageDialog(LSearchableComboBox.this,
+							itemUndefinedErrorText, "Error", LDialogs.ERROR_MESSAGE);
 					if (returnToLastIfUndefind) {
 						LSearchableComboBox.this.field.setText(list[index].toString());
 					}

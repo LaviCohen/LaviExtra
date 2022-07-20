@@ -50,9 +50,6 @@ public class LFontChooser {
 		if (baseFont == null) {
 			baseFont = DEFAULT_FONT;
 		}
-		if (owner == null) {
-			owner = JOptionPane.getRootFrame();
-		}
 		FontHolder fontHolder = new FontHolder(baseFont);
 		JDialog dialog = new JDialog(owner, title, ModalityType.APPLICATION_MODAL);
 		dialog.setBackground(theme.getBackgroundColor());

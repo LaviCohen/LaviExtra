@@ -1,8 +1,11 @@
 package le.gui.dialogs;
 
 import java.awt.Dialog.ModalityType;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
@@ -17,9 +20,12 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import le.gui.ColorTheme;
 import le.gui.components.LTextField;
@@ -56,7 +62,6 @@ public class LDialogs {
 			questionIcon = getIcon(ImageIO.read(LDialogs.class.getResourceAsStream("/le/resources/Question.png")), 50,
 					50);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -164,9 +169,9 @@ public class LDialogs {
 	}
 
 	public static int showOptionDialog(Component owner, Object message, String title, int optionType, int messageType,
-			Object[] options, Object initialValue) {
+			Object[] options, int initialValue) {
 		JDialog d = createDialog(owner, title);
-		d.setLayout(null);
+		d.setLayout(new BorderLayout());
 		d.setBackground(theme.getBackgroundColor());
 		JLabel label = new JLabel(message.toString());
 		label.setIcon(getIcon(messageType));
@@ -174,7 +179,12 @@ public class LDialogs {
 		d.add(label);
 		label.setBounds(0, 0, label.getPreferredSize().width, label.getPreferredSize().height);
 		theme.affect(label);
-		int totalX = 0;
+		JPanel buttons = new JPanel(new GridLayout(1, options.length + 2, 40, 20));
+		theme.affect(buttons);
+		buttons.add(new JComponent() {
+			private static final long serialVersionUID = 1L;
+		});
+		JButton focused = null;
 		VarHolder<Integer> option = new VarHolder<Integer>((Integer) initialValue);
 		if (optionType == 0) {
 			for (int i = 0; i < options.length; i++) {
@@ -189,19 +199,29 @@ public class LDialogs {
 						option.setValue(index);
 					}
 				});
-				d.add(button);
-				button.setBorder(BorderFactory.createLineBorder(null));
-				button.setBounds(60 + totalX, label.getPreferredSize().height, button.getPreferredSize().width + 10,
-						30);
-				totalX += button.getPreferredSize().width + 30;
+				if (i == initialValue) {
+					focused = button;
+				}
+				buttons.add(button);
+				button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.BLACK),
+						new EmptyBorder(8, 4, 8, 4)));
 			}
 		}
-		d.setSize((totalX < 300 ? 300 : totalX), label.getPreferredSize().height + 80);
+		buttons.add(new JComponent() {
+			private static final long serialVersionUID = 1L;
+		});
+		buttons.setBorder(new EmptyBorder(15, 0, 15, 0));
+		d.add(buttons, BorderLayout.SOUTH);
+		d.pack();
 		if (owner == null) {
 			d.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - d.getWidth() / 2,
 					Toolkit.getDefaultToolkit().getScreenSize().height / 2 - d.getHeight() / 2);
+		}else {
+			d.setLocation(owner.getWidth() / 2 - d.getWidth() / 2 + owner.getX(),
+					owner.getHeight() / 2 - d.getHeight() / 2 + owner.getY());
 		}
 		d.setResizable(false);
+		focused.grabFocus();
 		d.setVisible(true);
 		return option.getValue();
 	}

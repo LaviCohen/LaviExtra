@@ -2,13 +2,20 @@ package le.gui.dialogs;
 
 import java.awt.Dialog.ModalityType;
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -18,6 +25,10 @@ import le.gui.ColorTheme;
 import le.gui.components.LTextField;
 import le.utils.VarHolder;
 
+/**
+ * Replacement for @see java.swing.JOptionPane, to support another LaviExtra features,
+ * such as translation and themes. 
+ * */
 public class LDialogs {
 	
 	public static final int WARNING_MESSAGE = 1;
@@ -36,6 +47,35 @@ public class LDialogs {
 	private static Icon infoIcon;
 	private static Icon questionIcon;
 	
+	
+	static {
+		try {
+			warningIcon = getIcon(ImageIO.read(
+					LDialogs.class.getResourceAsStream("/le/resources/Warning.png")), 50, 50);
+			errorIcon = getIcon(ImageIO.read(
+					LDialogs.class.getResourceAsStream("/le/resources/Error.png")), 50, 50);
+			infoIcon = getIcon(ImageIO.read(
+					LDialogs.class.getResourceAsStream("/le/resources/Info.png")), 50, 50);
+			questionIcon = getIcon(ImageIO.read(
+					LDialogs.class.getResourceAsStream("/le/resources/Question.png")), 50, 50);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static ImageIcon getIcon(Image image, int w, int h) {
+		return new ImageIcon(getScaledImage(image, w, h));
+	}
+	
+	public static BufferedImage getScaledImage(Image srcImg, int width, int height){
+	    BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg, 0, 0, width, height, null);
+	    g2.dispose();
+	    return resizedImg;
+	}
 	
 	private static JDialog createDialog(Component owner, String title) {
 		JDialog d = new JDialog(getWindowParent(owner), title, ModalityType.APPLICATION_MODAL);

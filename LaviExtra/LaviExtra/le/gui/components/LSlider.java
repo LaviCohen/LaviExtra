@@ -56,16 +56,18 @@ public class LSlider extends JPanel{
 	public void setBackground(Color bg) {
 		super.setBackground(bg);
 		if (this.slider != null) {
-			this.slider.setBackground(bg);
 			this.subject.setBackground(bg);
+			this.slider.setBackground(bg);
+			this.field.setBackground(bg.brighter());
 		}
 	}
 	@Override
 	public void setForeground(Color fg) {
 		super.setForeground(fg);
 		if (this.slider != null) {
-			this.slider.setForeground(fg);
 			this.subject.setForeground(fg);
+			this.slider.setForeground(fg);
+			this.field.setForeground(fg);
 		}
 	}
 }

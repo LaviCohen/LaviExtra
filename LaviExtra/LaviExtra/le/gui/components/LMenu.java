@@ -107,12 +107,25 @@ public class LMenu extends JMenuBar {
 			}
 		}
 	}
-	public void setColor(Color bg, Color text) {
+	@Override
+	public void setBackground(Color bg) {
 		super.setBackground(bg);
-		for (JMenuItem[] jMenuItems : menuArr) {
-			for (JMenuItem jMenuItem : jMenuItems) {
-				jMenuItem.setBackground(bg);
-				jMenuItem.setForeground(text);
+		if (menuArr != null) {
+			for (JMenuItem[] jMenuItems : menuArr) {
+				for (JMenuItem jMenuItem : jMenuItems) {
+					jMenuItem.setBackground(bg);
+				}
+			}
+		}
+	}
+	@Override
+	public void setForeground(Color fg) {
+		super.setForeground(fg);
+		if (menuArr != null) {
+			for (JMenuItem[] jMenuItems : menuArr) {
+				for (JMenuItem jMenuItem : jMenuItems) {
+					jMenuItem.setForeground(fg);
+				}
 			}
 		}
 	}

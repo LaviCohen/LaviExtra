@@ -20,8 +20,10 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -224,5 +226,53 @@ public class LDialogs {
 		focused.grabFocus();
 		d.setVisible(true);
 		return option.getValue();
+	}
+
+	public static String showInputDialog(String message) {
+		return showInputDialog(null, message);
+	}
+
+	public static Object showInputDialog(JFrame owner, String message, String title, int messageType,
+			Object[] options, Object initialValue) {
+		JDialog d = createDialog(owner, title);
+		d.setLayout(null);
+		d.setBackground(theme.getBackgroundColor());
+		JLabel label = new JLabel(message);
+		label.setIcon(getIcon(messageType));
+		label.setBorder(new EmptyBorder(20, 30, 10, 30));
+		d.add(label);
+		label.setBounds(0, 0, label.getPreferredSize().width, label.getPreferredSize().height);
+		theme.affect(label);
+
+		JComboBox<Object> optionBox = new JComboBox<Object>(options);
+		if (initialValue != null) {
+			optionBox.setSelectedItem(initialValue);
+		}
+		theme.affect(optionBox);
+		optionBox.setBounds(30, label.getPreferredSize().height, 280, 25);
+
+		d.add(optionBox);
+
+		JButton button = new JButton("OK");
+		theme.affect(button);
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				d.dispose();
+			}
+		});
+		d.add(button);
+		button.setBorder(BorderFactory.createLineBorder(null));
+		button.setBounds(145, label.getPreferredSize().height + 40, 60, 30);
+
+		d.setSize(350, label.getPreferredSize().height + 130);
+		if (owner == null) {
+			d.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - d.getWidth() / 2,
+					Toolkit.getDefaultToolkit().getScreenSize().height / 2 - d.getHeight() / 2);
+		}
+		d.setResizable(false);
+		d.setVisible(true);
+		return optionBox.getSelectedItem();
 	}
 }

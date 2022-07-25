@@ -18,6 +18,8 @@ import javax.swing.KeyStroke;
  * <li>To create a shortcut, you add at the end of the String one or
  * more of the shortcut characters and the letter (More details below).</li>
  * <li>To create a JCheckBoxMenuItem, add "[check-box]" before the name of the item.</li>
+ * <li>To create a separator line, write "---" as the name of the item.<br/>
+ * Also, null item names will became separators.</li>
  * </ol>
  * <table>
 	 * <tr><td>Character</td><td>Key</td></tr>
@@ -27,6 +29,7 @@ import javax.swing.KeyStroke;
  * </table>
  * For example, to create "Save As..." item with control shift 's' shortcut,
  * write this String: {@code "Save As...#$s"}
+ * 
  */
 public class LMenu extends JMenuBar {
 	private static final long serialVersionUID = 1L;
@@ -48,10 +51,8 @@ public class LMenu extends JMenuBar {
 		}
 		for (int i = 0; i < menuNames.length; i++) {
 			for (int j = 1; j < menuNames[i].length; j++) {
-				if (menuNames[i][j] != null) {
+				if (menuNames[i][j] != null && !menuNames[i][j].equals("---")) {
 					menuArr[i][j] = build(menuNames[i][j]);
-				} else {
-					break;
 				}
 			}
 		}
@@ -79,7 +80,7 @@ public class LMenu extends JMenuBar {
 			MI.setAccelerator(hotkey);
 		} else if (menuItem.startsWith("[check-box]")) {
 			MI = new JCheckBoxMenuItem(menuItem.substring(11));
-		} else {
+		}else {
 			MI = new JMenuItem(menuItem);
 		}
 		MI.addActionListener(AL);

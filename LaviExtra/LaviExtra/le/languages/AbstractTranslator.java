@@ -47,7 +47,6 @@ public abstract class AbstractTranslator {
 	public void setLanguage(Language newLanguage) {
 		this.language = newLanguage;
 	}
-	public abstract void showChangeLanguageDialog();
 	public Object getLanguageName() {
 		if (language == null) {
 			return DEFAULT_LANGUAGE;

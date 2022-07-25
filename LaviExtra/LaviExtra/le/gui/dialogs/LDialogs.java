@@ -123,7 +123,7 @@ public class LDialogs {
 	}
 
 	public static void showMessageDialog(Component owner, String message) {
-		showMessageDialog(owner, null, message, INFO_MESSAGE);
+		showMessageDialog(owner, message, null, INFO_MESSAGE);
 	}
 
 	public static String showInputDialog(Component owner, String message) {

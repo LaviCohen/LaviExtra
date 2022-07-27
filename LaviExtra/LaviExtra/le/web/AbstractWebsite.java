@@ -60,7 +60,7 @@ public abstract class AbstractWebsite {
 	}
 	public boolean checkInternetConnection(){
 		try {
-			new URL("https://www.google.com").openStream();
+			new URL("http://www.google.com").openStream();
 		} catch (Exception e) {
 			return false;
 		}

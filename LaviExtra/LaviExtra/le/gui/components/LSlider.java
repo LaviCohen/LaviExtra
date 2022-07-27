@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -38,6 +39,13 @@ public class LSlider extends JPanel{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				field.setText(slider.getValue() + "");
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						LSlider.this.doLayout();
+					}
+				});
 			}
 		});
 		field.addActionListener(new ActionListener() {
@@ -45,7 +53,7 @@ public class LSlider extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				slider.setValue(Integer.valueOf(field.getText()));
-				
+				LSlider.this.doLayout();
 			}
 		});
 	}

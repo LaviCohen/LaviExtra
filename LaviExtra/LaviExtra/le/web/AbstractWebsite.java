@@ -22,7 +22,29 @@ import le.log.ExceptionUtils;
  * Represents the website of the product to use its web services.
  * */
 public abstract class AbstractWebsite {
-	public String webAddress;
+	protected String webAddress;
+	
+	protected boolean hasInternet;
+	protected boolean websiteAvaliable;
+	
+	public String getWebAddress() {
+		return webAddress;
+	}
+	public void setWebAddress(String webAddress) {
+		this.webAddress = webAddress;
+	}
+	public boolean isHasInternet() {
+		return hasInternet;
+	}
+	public void setHasInternet(boolean hasInternet) {
+		this.hasInternet = hasInternet;
+	}
+	public boolean isWebsiteAvaliable() {
+		return websiteAvaliable;
+	}
+	public void setWebsiteAvaliable(boolean websiteAvaliable) {
+		this.websiteAvaliable = websiteAvaliable;
+	}
 	public AbstractWebsite(String webAdress) {
 		this.webAddress = webAdress;
 	}
@@ -38,10 +60,10 @@ public abstract class AbstractWebsite {
 		}
 	}
 	public String sendReport(String name, String title, String report) {
-		if (!checkInternetConnection()) {
+		if (!hasInternet) {
 			return "There is no internet connection, please try again later";
 		}
-		if (!checkWebsite()) {
+		if (!websiteAvaliable) {
 			return "Web services are unavaliable right now, please try again later";
 		}
 		String urlParams = "name=" + name.replaceAll(" ", "+") + "&title=" + title.replaceAll(" ", "+") + 
@@ -49,7 +71,7 @@ public abstract class AbstractWebsite {
 		return getGetResponse(webAddress + "/report.php?" + urlParams);
 	}
 	public void sendAutoReport(Exception e, Thread t) {
-		if (!checkInternetConnection() || !checkWebsite()) {
+		if (!hasInternet || !websiteAvaliable) {
 			return;
 		}
         @SuppressWarnings("unused")
@@ -61,18 +83,21 @@ public abstract class AbstractWebsite {
 	public boolean checkInternetConnection(){
 		try {
 			new URL("http://www.google.com").openStream();
+			hasInternet = true;
 		} catch (Exception e) {
-			return false;
+			hasInternet = false;
+			websiteAvaliable = false;
 		}
-		return true;
+		return hasInternet;
 	}
 	public boolean checkWebsite(){
 	    try {
-			new URL(webAddress).openStream();
+			new URL(webAddress).openStream().close();;
+			websiteAvaliable = true;
 		} catch (Exception e) {
-			return false;
+			websiteAvaliable = false;
 		}
-		return true;
+		return websiteAvaliable;
 	}
 	public long download(String url, File target) {
 		if (!url.startsWith(webAddress)) {

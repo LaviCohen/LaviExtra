@@ -12,6 +12,9 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -145,6 +148,14 @@ public class LDialogs {
 		theme.affect(textField);
 		textField.setBounds(30, label.getPreferredSize().height, 280, 25);
 
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					d.dispose();
+				}
+			}
+		});
 		d.add(textField);
 
 		JButton button = new JButton("OK");

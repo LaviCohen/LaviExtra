@@ -11,6 +11,8 @@ public interface ColorTheme {
 		
 		Color backgroundColor = new Color(233, 233, 233);
 		Color textColor = Color.BLACK;
+		
+		
 		@Override
 		public Color getTextColor() {
 			return textColor;
@@ -34,12 +36,20 @@ public interface ColorTheme {
 			}
 			return component;
 		}
+
+		@Override
+		public boolean isAffectingButtons() {
+			return false;
+		}
 	};
+	public boolean isAffectingButtons();
 	public Color getBackgroundColor();
 	public Color getTextColor();
 	public default JComponent affect(JComponent component) {
-		component.setBackground(getBackgroundColor());
-		component.setForeground(getTextColor());
+		if (!isAffectingButtons() || !(component instanceof JButton)) {
+			component.setBackground(getBackgroundColor());
+			component.setForeground(getTextColor());
+		}
 		return component;
 	}
 }

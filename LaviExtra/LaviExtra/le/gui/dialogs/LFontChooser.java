@@ -15,6 +15,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import le.gui.ColorTheme;
 import le.gui.components.LSearchableComboBox;
@@ -123,9 +125,15 @@ public class LFontChooser {
 		JLabel label = new JLabel(text);
 		theme.affect(label);
 		label.setFont(font);
-		dialog.add(label);
+		JScrollPane sp = new JScrollPane(label, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		theme.affect(sp);
+		dialog.add(sp);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.pack();
+		if (dialog.getSize().width > 1000) {
+			dialog.setSize(600, dialog.getSize().height + 100);
+		}
 		dialog.setVisible(true);
 	}
 }

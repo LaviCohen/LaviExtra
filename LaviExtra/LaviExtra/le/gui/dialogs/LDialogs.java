@@ -4,17 +4,15 @@ import java.awt.Dialog.ModalityType;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -28,11 +26,13 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import le.gui.ColorTheme;
 import le.gui.components.LTextField;
+import le.utils.PictureUtilities;
 import le.utils.VarHolder;
 
 /**
@@ -71,16 +71,7 @@ public class LDialogs {
 	}
 
 	public static ImageIcon getIcon(Image image, int w, int h) {
-		return new ImageIcon(getScaledImage(image, w, h));
-	}
-
-	public static BufferedImage getScaledImage(Image srcImg, int width, int height) {
-		BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = resizedImg.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2.drawImage(srcImg, 0, 0, width, height, null);
-		g2.dispose();
-		return resizedImg;
+		return new ImageIcon(PictureUtilities.getScaledImage(image, w, h));
 	}
 
 	private static JDialog createDialog(Component owner, String title) {
@@ -132,6 +123,10 @@ public class LDialogs {
 		return showInputDialog(owner, message, null);
 	}
 
+	public static String showInputDialog(String message) {
+		return showInputDialog(null, message);
+	}
+	
 	public static String showInputDialog(Component owner, String message, String title) {
 		JDialog d = createDialog(owner, title);
 		d.setLayout(null);
@@ -176,6 +171,11 @@ public class LDialogs {
 					Toolkit.getDefaultToolkit().getScreenSize().height / 2 - d.getHeight() / 2);
 		}
 		d.setResizable(false);
+		if (owner != null) {
+			Point p = new Point(owner.getWidth() / 2, owner.getHeight() / 2);
+			SwingUtilities.convertPointToScreen(p, owner);
+			d.setLocation(p.x - d.getWidth() / 2, p.y - d.getHeight() / 2);
+		}
 		d.setVisible(true);
 		return textField.getText();
 	}
@@ -233,13 +233,14 @@ public class LDialogs {
 					owner.getHeight() / 2 - d.getHeight() / 2 + owner.getY());
 		}
 		d.setResizable(false);
+		if (owner != null) {
+			Point p = new Point(owner.getWidth() / 2, owner.getHeight() / 2);
+			SwingUtilities.convertPointToScreen(p, owner);
+			d.setLocation(p.x - d.getWidth() / 2, p.y - d.getHeight() / 2);
+		}
 		focused.grabFocus();
 		d.setVisible(true);
 		return option.getValue();
-	}
-
-	public static String showInputDialog(String message) {
-		return showInputDialog(null, message);
 	}
 
 	public static Object showInputDialog(JFrame owner, String message, String title, int messageType,
@@ -282,6 +283,11 @@ public class LDialogs {
 					Toolkit.getDefaultToolkit().getScreenSize().height / 2 - d.getHeight() / 2);
 		}
 		d.setResizable(false);
+		if (owner != null) {
+			Point p = new Point(owner.getWidth() / 2, owner.getHeight() / 2);
+			SwingUtilities.convertPointToScreen(p, owner);
+			d.setLocation(p.x - d.getWidth() / 2, p.y - d.getHeight() / 2);
+		}
 		d.setVisible(true);
 		return optionBox.getSelectedItem();
 	}

@@ -15,5 +15,12 @@ public class PictureUtilities {
 	    g2.dispose();
 	    return resizedImg;
 	}
+	
+	public static BufferedImage copy(BufferedImage bufferedImage) {
+		BufferedImage ret = new BufferedImage(bufferedImage.getWidth(), 
+				bufferedImage.getHeight(), bufferedImage.getType());
+		ret.createGraphics().drawImage(bufferedImage, 0, 0, null);
+		return ret;
+	}
 
 }

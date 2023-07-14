@@ -16,6 +16,7 @@ public class Logger {
 	
 	protected AbstractInstall install;
 	
+	
 	public boolean printInConsole = true;
 	public PrintStream console = System.out;
 	public PrintStream err = System.err;
@@ -26,6 +27,8 @@ public class Logger {
 	private StringBuffer log = new StringBuffer();
 	private StringBuffer errorLog = new StringBuffer();
 	public int errorCount = 0;
+	
+	private PrintStream logListener = null;
 	
 	public Logger(AbstractInstall install) {
 		this.install = install;
@@ -39,6 +42,9 @@ public class Logger {
 				Logger.this.liveappend((char)b);
 				if (printInConsole) {
 					console.append((char)b);
+				}
+				if (logListener != null) {
+					logListener.append((char)b);
 				}
 				log.append((char)b);
 			}
@@ -56,6 +62,9 @@ public class Logger {
 				errorLog.append((char)b);
 				if (printInConsole) {
 					err.print((char)b);
+				}
+				if (logListener != null) {
+					logListener.append((char)b);
 				}
 			}
 		});
@@ -134,5 +143,13 @@ public class Logger {
 	}
 	public PrintStream getErrorLogger() {
 		return errorLogger;
+	}
+
+	public PrintStream getLogListener() {
+		return logListener;
+	}
+
+	public void setLogListener(PrintStream logListener) {
+		this.logListener = logListener;
 	}
 }

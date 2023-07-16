@@ -42,6 +42,9 @@ public class PictureUtilities {
 	}
 
 	public static BufferedImage copy(BufferedImage bufferedImage) {
+		if (bufferedImage == null) {
+			return null;
+		}
 		BufferedImage ret = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(),
 				bufferedImage.getType());
 		ret.createGraphics().drawImage(bufferedImage, 0, 0, null);

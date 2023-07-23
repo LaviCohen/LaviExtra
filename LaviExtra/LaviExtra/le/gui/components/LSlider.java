@@ -22,13 +22,16 @@ import le.languages.AbstractTranslator;
 public class LSlider extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	public JSlider slider;
-	public JTextField field;
-	public JLabel subject;
+	
+	private JSlider slider;
+	private JTextField field;
+	private JLabel subject;
+	private double valueFactor = 1;
+	
 	public LSlider(String subject, int minValue, int maxValue, int defultValue) {
 		super(new BorderLayout());
 		this.subject = new JLabel(subject);
-		this.add(this.subject, AbstractTranslator.getTranslator().getBeforeTextBorder());
+		this.add(this.getSubject(), AbstractTranslator.getTranslator().getBeforeTextBorder());
 		this.slider = new JSlider(minValue, maxValue, defultValue);
 		this.slider.setComponentOrientation(AbstractTranslator.getTranslator().getComponentOrientation());
 		this.add(slider);
@@ -38,7 +41,7 @@ public class LSlider extends JPanel{
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				field.setText(slider.getValue() + "");
+				field.setText(LSlider.this.getValue() + "");
 				SwingUtilities.invokeLater(new Runnable() {
 					
 					@Override
@@ -57,14 +60,14 @@ public class LSlider extends JPanel{
 			}
 		});
 	}
-	public int getValue() {
-		return slider.getValue();
+	public double getValue() {
+		return slider.getValue() * valueFactor;
 	}
 	@Override
 	public void setBackground(Color bg) {
 		super.setBackground(bg);
 		if (this.slider != null) {
-			this.subject.setBackground(bg);
+			this.getSubject().setBackground(bg);
 			this.slider.setBackground(bg);
 			this.field.setBackground(bg.brighter());
 		}
@@ -73,9 +76,12 @@ public class LSlider extends JPanel{
 	public void setForeground(Color fg) {
 		super.setForeground(fg);
 		if (this.slider != null) {
-			this.subject.setForeground(fg);
+			this.getSubject().setForeground(fg);
 			this.slider.setForeground(fg);
 			this.field.setForeground(fg);
 		}
+	}
+	public JLabel getSubject() {
+		return subject;
 	}
 }

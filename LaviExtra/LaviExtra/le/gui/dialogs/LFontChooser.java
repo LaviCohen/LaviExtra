@@ -72,7 +72,7 @@ public class LFontChooser {
 		leftPanel.add(familyPanel);
 		LSlider sizeSlider = new LSlider("Size:", 0, 100, baseFont.getSize());
 		sizeSlider.setBackground(theme.getBackgroundColor());
-		sizeSlider.subject.setForeground(theme.getTextColor());
+		sizeSlider.getSubject().setForeground(theme.getTextColor());
 		leftPanel.add(sizeSlider);
 		JPanel stylePanel = new JPanel(new GridLayout());
 		JCheckBox bold = new JCheckBox("bold", baseFont.getStyle() >= Font.BOLD);
@@ -91,7 +91,7 @@ public class LFontChooser {
 			public void actionPerformed(ActionEvent e) {
 				int style = (bold.isSelected() ? Font.BOLD : 0) + (italic.isSelected() ? Font.ITALIC : 0);
 				fontHolder.setFont(
-						new Font(familyBox.getSelectedItem(), style, sizeSlider.getValue()));
+						new Font(familyBox.getSelectedItem(), style, (int) sizeSlider.getValue()));
 				openPreviwDialog(previewText == null ? DEFAULT_PREVIEW_TEXT : previewText, dialog, fontHolder.getFont(), theme);
 			}
 		});
@@ -104,7 +104,7 @@ public class LFontChooser {
 			public void actionPerformed(ActionEvent e) {
 				int style = (bold.isSelected() ? Font.BOLD : 0) + (italic.isSelected() ? Font.ITALIC : 0);
 				fontHolder.setFont(
-						new Font(familyBox.getSelectedItem(), style, sizeSlider.getValue()));
+						new Font(familyBox.getSelectedItem(), style, (int) sizeSlider.getValue()));
 				dialog.setVisible(false);
 			}
 		});

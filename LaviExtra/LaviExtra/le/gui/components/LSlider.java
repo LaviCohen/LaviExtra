@@ -28,14 +28,19 @@ public class LSlider extends JPanel{
 	private JLabel subject;
 	private double valueFactor = 1;
 	
-	public LSlider(String subject, int minValue, int maxValue, int defultValue) {
+	public LSlider(String subject, double minValue, double maxValue, double rotation, double valueFactor) {
+		this(subject, (int) (minValue / valueFactor), (int) (maxValue / valueFactor),
+				(int) (rotation / valueFactor));
+		this.valueFactor = valueFactor;
+	}
+	public LSlider(String subject, int minValue, int maxValue, int rotation) {
 		super(new BorderLayout());
 		this.subject = new JLabel(subject);
 		this.add(this.getSubject(), AbstractTranslator.getTranslator().getBeforeTextBorder());
-		this.slider = new JSlider(minValue, maxValue, defultValue);
+		this.slider = new JSlider(minValue, maxValue, rotation);
 		this.slider.setComponentOrientation(AbstractTranslator.getTranslator().getComponentOrientation());
 		this.add(slider);
-		this.field = new JTextField(defultValue + "");
+		this.field = new JTextField(rotation + "");
 		this.add(field, AbstractTranslator.getTranslator().getAfterTextBorder());
 		this.slider.addChangeListener(new ChangeListener() {
 			

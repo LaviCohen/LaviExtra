@@ -35,7 +35,6 @@ public class DataFile {
 		this(new File(path));
 	}
 	public String get(String key) {
-		System.out.println(key);
 		return getOrDefault(key, null);
 	}
 	public String getOrDefault(String key, Object defautl) {

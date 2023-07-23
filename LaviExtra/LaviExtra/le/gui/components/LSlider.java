@@ -28,9 +28,9 @@ public class LSlider extends JPanel{
 	private JLabel subject;
 	private double valueFactor = 1;
 	
-	public LSlider(String subject, double minValue, double maxValue, double rotation, double valueFactor) {
+	public LSlider(String subject, double minValue, double maxValue, double defaultValue, double valueFactor) {
 		this(subject, (int) (minValue / valueFactor), (int) (maxValue / valueFactor),
-				(int) (rotation / valueFactor));
+				(int) (defaultValue / valueFactor));
 		this.valueFactor = valueFactor;
 	}
 	public LSlider(String subject, int minValue, int maxValue, int rotation) {

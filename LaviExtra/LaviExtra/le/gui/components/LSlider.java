@@ -38,11 +38,11 @@ public class LSlider extends JPanel{
 		this.subject = new JLabel(subject);
 		this.add(this.getSubject(), AbstractTranslator.getTranslator().getBeforeTextBorder());
 		this.slider = new JSlider(minValue, maxValue, rotation);
-		this.slider.setComponentOrientation(AbstractTranslator.getTranslator().getComponentOrientation());
-		this.add(slider);
+		this.getSlider().setComponentOrientation(AbstractTranslator.getTranslator().getComponentOrientation());
+		this.add(getSlider());
 		this.field = new JTextField(rotation + "");
 		this.add(field, AbstractTranslator.getTranslator().getAfterTextBorder());
-		this.slider.addChangeListener(new ChangeListener() {
+		this.getSlider().addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -60,33 +60,36 @@ public class LSlider extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				slider.setValue(Integer.valueOf(field.getText()));
+				getSlider().setValue(Integer.valueOf(field.getText()));
 				LSlider.this.doLayout();
 			}
 		});
 	}
 	public double getValue() {
-		return slider.getValue() * valueFactor;
+		return getSlider().getValue() * valueFactor;
 	}
 	@Override
 	public void setBackground(Color bg) {
 		super.setBackground(bg);
-		if (this.slider != null) {
+		if (this.getSlider() != null) {
 			this.getSubject().setBackground(bg);
-			this.slider.setBackground(bg);
+			this.getSlider().setBackground(bg);
 			this.field.setBackground(bg.brighter());
 		}
 	}
 	@Override
 	public void setForeground(Color fg) {
 		super.setForeground(fg);
-		if (this.slider != null) {
+		if (this.getSlider() != null) {
 			this.getSubject().setForeground(fg);
-			this.slider.setForeground(fg);
+			this.getSlider().setForeground(fg);
 			this.field.setForeground(fg);
 		}
 	}
 	public JLabel getSubject() {
 		return subject;
+	}
+	public JSlider getSlider() {
+		return slider;
 	}
 }

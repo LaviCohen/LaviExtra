@@ -49,7 +49,7 @@ public class ListLayout implements LayoutManager2{
 		int width = 150;
 		int totalHeight = 0;
 		for (Component c:components) {
-			totalHeight += c.getPreferredSize().height;
+			totalHeight += c.getPreferredSize().height + vgap;
 			if (c.getPreferredSize().width > width) {
 				width = c.getPreferredSize().width;
 			}

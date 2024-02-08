@@ -126,8 +126,11 @@ public class LDialogs {
 	public static String showInputDialog(String message) {
 		return showInputDialog(null, message);
 	}
-	
 	public static String showInputDialog(Component owner, String message, String title) {
+		return showInputDialog(owner, message, title, null);
+	}
+	public static String showInputDialog(Component owner, String message,
+			String title, String defaultValue) {
 		JDialog d = createDialog(owner, title);
 		d.setLayout(null);
 		d.setBackground(theme.getBackgroundColor());
@@ -139,6 +142,13 @@ public class LDialogs {
 		theme.affect(label);
 
 		LTextField textField = new LTextField("Enter your answer here...");
+		
+		if (defaultValue != null) {
+			textField.setText(defaultValue);
+			textField.setSelectionStart(0);
+			textField.setSelectionEnd(defaultValue.length());
+		}
+		
 		theme.affect(textField);
 		textField.setBounds(30, label.getPreferredSize().height, 280, 25);
 

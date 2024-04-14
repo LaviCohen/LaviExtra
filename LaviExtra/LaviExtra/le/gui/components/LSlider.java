@@ -48,7 +48,12 @@ public class LSlider extends JPanel{
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				field.setText(round(LSlider.this.getValue()) + "");
+				double newVal = round(LSlider.this.getValue());
+				if (newVal == (int)newVal) {
+					field.setText((int)newVal + "");					
+				} else {
+					field.setText(newVal + "");
+				}
 				SwingUtilities.invokeLater(new Runnable() {
 					
 					@Override

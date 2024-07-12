@@ -39,8 +39,7 @@ public abstract class AbstractInstall {
 		return new File(getPath(resPath));
 	}
 	public String getText(String resPath) {
-		try {
-			FileInputStream fis = new FileInputStream(getFile(resPath));
+		try (FileInputStream fis = new FileInputStream(getFile(resPath))) {
 			String text = "";
 			int c = 0;
 			while ((c = fis.read()) != -1) {

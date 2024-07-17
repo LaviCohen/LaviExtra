@@ -2,8 +2,8 @@ package le.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,14 +35,14 @@ public class LSlider extends JPanel{
 				(int) (defaultValue / valueFactor));
 		this.valueFactor = valueFactor;
 	}
-	public LSlider(String subject, int minValue, int maxValue, int rotation) {
+	public LSlider(String subject, int minValue, int maxValue, int defaultValue) {
 		super(new BorderLayout());
 		this.subject = new JLabel(subject);
 		this.add(this.getSubject(), AbstractTranslator.getTranslator().getBeforeTextBorder());
-		this.slider = new JSlider(minValue, maxValue, rotation);
+		this.slider = new JSlider(minValue, maxValue, defaultValue);
 		this.getSlider().setComponentOrientation(AbstractTranslator.getTranslator().getComponentOrientation());
 		this.add(getSlider());
-		this.field = new JTextField(rotation + "");
+		this.field = new JTextField();
 		this.add(field, AbstractTranslator.getTranslator().getAfterTextBorder());
 		this.getSlider().addChangeListener(new ChangeListener() {
 			
@@ -63,11 +63,19 @@ public class LSlider extends JPanel{
 				});
 			}
 		});
-		field.addActionListener(new ActionListener() {
+		field.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e);
+				getSlider().setValue((int) (Double.valueOf(field.getText()) / LSlider.this.valueFactor));
+				LSlider.this.doLayout();
+			}
+		});
+		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				getSlider().setValue(Integer.valueOf(field.getText()));
+			public void run() {
+				LSlider.this.field.setText(defaultValue * valueFactor + "");
 				LSlider.this.doLayout();
 			}
 		});

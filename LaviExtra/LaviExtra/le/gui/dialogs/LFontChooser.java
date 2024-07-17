@@ -2,6 +2,7 @@ package le.gui.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dialog.ModalityType;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -45,6 +46,9 @@ public class LFontChooser {
 			+ "abcdefghijklmnopqrstuvwxyz1234567890/*-+!@#$%^&*()_+?\\/\'\":`~;</html>";
 	public static Font openChooseFontDialog(Window owner, String title, Font baseFont, String previewText) {
 		return openChooseFontDialog(owner, title, baseFont, previewText, ColorTheme.DEFAULT_COLOR_THEME);
+	}
+	public static Font openChooseFontDialog(Component owner, String title, Font baseFont, String previewText, ColorTheme theme) {
+		return openChooseFontDialog(LDialogs.getWindowParent(owner), title, baseFont, previewText);
 	}
 	public static Font openChooseFontDialog(Window owner, String title, Font baseFont, String previewText, ColorTheme theme) {
 		if (baseFont == null) {

@@ -81,7 +81,7 @@ public class LDialogs {
 		return d;
 	}
 
-	private static Window getWindowParent(Component owner) {
+	public static Window getWindowParent(Component owner) {
 		if (owner == null || owner instanceof Window) {
 			return (Window) owner;
 		}

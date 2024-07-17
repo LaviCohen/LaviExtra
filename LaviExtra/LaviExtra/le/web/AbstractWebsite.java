@@ -78,7 +78,6 @@ public abstract class AbstractWebsite {
 		String urlParams = "exception=" + e.toString().replaceAll(" ", "+") + 
         		"&description=" + ExceptionUtils.exceptionToString(e, t, -1).replace(" ", "+") + 
 		"&place=" + getErrorPlace(e).replaceAll(" ", "+");
-		System.out.println("reported");
 	}
 	public boolean checkInternetConnection(){
 		try {
@@ -126,7 +125,6 @@ public abstract class AbstractWebsite {
 		}
 	}
 	private String getGetResponse(String url) {
-		System.out.println(url);
 		URL adress = null;
 		try {
 			adress = new URL(URLDecoder.decode(url, "UTF-32").replaceAll(" ", "+")
@@ -138,7 +136,6 @@ public abstract class AbstractWebsite {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(adress);
 		Scanner reader = null;
 		try {
 			reader = new Scanner(adress.openStream());
